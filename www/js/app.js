@@ -1,11 +1,11 @@
 angular.module('starter', ['ionic'])
-.controller('todoCtrl',function($scope,$ionicModal){
-  //var tasks=$scope.tasks=JSON.parse(localStorage.getItem('tasks') || '[]');
+.controller('todoCtrl',function($scope,$ionicModal,$ionicSideMenuDelegate){
+
   var Buckets=$scope.Buckets=JSON.parse(localStorage.getItem('Buckets') || '[]');
-  //var tasks=$scope.tasks=
+  var recentBucket=$scope.recentBucket=$scope.Buckets[parseInt(window.localStorage['active'])||0];
 
-$scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
 
+//Create new task--------------------------------------------------------------------------------------------------------------------
   $ionicModal.fromTemplateUrl('new-task.html',function(modal){
     $scope.taskModal=modal;
   },{
@@ -13,6 +13,19 @@ $scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
     animation:'slide-in-up'
   });
 
+  $scope.createTask=function(task){
+      console.log($scope.recentBucket.title);
+     $scope.recentBucket.tasks.push({
+      title:task.title,
+      completed:false
+    });
+    $scope.taskModal.hide();
+    window.localStorage.setItem('Buckets', JSON.stringify(Buckets));
+    task.title="";
+   };
+//-----------------------------------------------------------------------------------------------------------------------------------------
+ 
+//Create new bucket-----------------------------------------------------------------------------------------------------------------------
 
   $ionicModal.fromTemplateUrl('new-bucket.html',function(modal){
     $scope.bucketModal=modal;
@@ -20,20 +33,10 @@ $scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
     scope:$scope,
     animation:'slide-in-up'
   });
-
-
-  $scope.createTask=function(task){
-      var bucket_recent=window.localStorage.setItem('Buckets', JSON.stringify(recentBucket.tasks));
-      $scope.bucket_recent.tasks.push({
-      title:task.title,
-      completed:false
-    });
-    $scope.taskModal.hide();
-    window.localStorage.setItem('Buckets', JSON.stringify(recentBucket.tasks));
-    task.title="";
-   };
+ 
 
    $scope.createBucket=function(bucket){
+      console.log(bucket.title);
       $scope.Buckets.push({
       title:bucket.title,
       tasks:[]
@@ -43,14 +46,19 @@ $scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
     bucket.title="";
    };
 
+//--------------------------------------------------------------------------------------------------------------------------------------------
+
   $scope.newTask=function(){
     $scope.taskModal.show();
   };
   $scope.closeNewTask=function(){
     $scope.taskModal.hide();
   };
-  $scope.taskCompleted=function(task){
-    window.localStorage.setItem('tasks', JSON.stringify(tasks));
+  $scope.closeNewBucket=function(){
+    $scope.bucketModal.hide();
+  };
+  $scope.taskCompleted=function(){
+    window.localStorage.setItem('Buckets', JSON.stringify(Buckets));
   }
   
   $scope.edit=function(task){
@@ -61,11 +69,13 @@ $scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
   $scope.newBucket=function(){
     $scope.bucketModal.show();
   }
-
-  $scope.open=function(bucket){
-
-    window.localStorage.setItem('recent', JSON.stringify(bucket));
+//open new bucket-----------------------------------------------------------------------------------------------------------------------------------
+  $scope.open=function(bucket,index){
+    $scope.recentBucket=$scope.Buckets[index];
+    window.localStorage['active']=index;
+    $ionicSideMenuDelegate.toggleLeft(false);
   }
+//-----------------------------------------------------------------------------------------------------------------------------------------------------
 });
 
 /*.run(function($ionicPlatform) {
