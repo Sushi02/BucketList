@@ -1,14 +1,7 @@
-// Ionic Starter App
-
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
 angular.module('starter', ['ionic'])
 .controller('todoCtrl',function($scope,$ionicModal){
-  $scope.tasks=[
-  {title:'Go to Eiffle Tower'},
-  {title:'Get a tatoo'}
-  ];
+  var tasks=$scope.tasks=JSON.parse(localStorage.getItem('tasks') || '[]');
+
   $ionicModal.fromTemplateUrl('new-task.html',function(modal){
     $scope.taskModal=modal;
   },{
@@ -16,18 +9,28 @@ angular.module('starter', ['ionic'])
     animation:'slide-in-up'
   });
   $scope.createTask=function(task){
-    $scope.tasks.push({
-      title:task.title
+      $scope.tasks.push({
+      title:task.title,
+      completed:false
     });
     $scope.taskModal.hide();
+    window.localStorage.setItem('tasks', JSON.stringify(tasks));
     task.title="";
-  };
+   };
   $scope.newTask=function(){
     $scope.taskModal.show();
   };
   $scope.closeNewTask=function(){
     $scope.taskModal.hide();
   };
+  $scope.taskCompleted=function(task){
+    window.localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+  $scope.edit=function(task){
+    tasks.splice(tasks.indexOf(task), 1);
+    $scope.taskModal.show();
+    todoStorage.put(todos);
+  }
 });
 
 /*.run(function($ionicPlatform) {

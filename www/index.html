@@ -26,12 +26,18 @@
     <ion-side-menus>
       <ion-side-menu-content>
         <ion-header-bar class="bar-dark">
+        <button class="button button-icon" ng-click="toggleProjects()">
+          <i class="icon tcin-navicon"></i>
+        </button>
           <h1 class="title">My BucketList</h1>
         </ion-header-bar>
-        <ion-content>
+        <ion-content scroll="false">
           <ion-list>
-            <ion-item ng-repeat="task in tasks">
-              {{task.title}}
+            <ion-item class="item item-checkbox" ng-dblclick="edit(task)" ng-repeat="task in tasks">
+            <label class="checkbox">
+            <input class="toggle" type="checkbox" ng-model="task.completed" ng-change="taskCompleted(task)"/>
+          </label>
+                  {{task.title}}
             </ion-item>
           </ion-list>
           <button class="button button-icon" ng-click="newTask()">
