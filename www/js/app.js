@@ -26,6 +26,7 @@ angular.module('starter', ['ionic'])
   $scope.taskCompleted=function(task){
     window.localStorage.setItem('tasks', JSON.stringify(tasks));
   }
+  
   $scope.edit=function(task){
     tasks.splice(tasks.indexOf(task), 1);
     $scope.taskModal.show();
