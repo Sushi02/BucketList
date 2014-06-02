@@ -1,6 +1,10 @@
 angular.module('starter', ['ionic'])
 .controller('todoCtrl',function($scope,$ionicModal){
-  var tasks=$scope.tasks=JSON.parse(localStorage.getItem('tasks') || '[]');
+  //var tasks=$scope.tasks=JSON.parse(localStorage.getItem('tasks') || '[]');
+  var Buckets=$scope.Buckets=JSON.parse(localStorage.getItem('Buckets') || '[]');
+  //var tasks=$scope.tasks=
+
+$scope.recentBucket=JSON.parse(localStorage.getItem('recent') || '[]');
 
   $ionicModal.fromTemplateUrl('new-task.html',function(modal){
     $scope.taskModal=modal;
@@ -8,15 +12,37 @@ angular.module('starter', ['ionic'])
     scope:$scope,
     animation:'slide-in-up'
   });
+
+
+  $ionicModal.fromTemplateUrl('new-bucket.html',function(modal){
+    $scope.bucketModal=modal;
+  },{
+    scope:$scope,
+    animation:'slide-in-up'
+  });
+
+
   $scope.createTask=function(task){
-      $scope.tasks.push({
+      var bucket_recent=window.localStorage.setItem('Buckets', JSON.stringify(recentBucket.tasks));
+      $scope.bucket_recent.tasks.push({
       title:task.title,
       completed:false
     });
     $scope.taskModal.hide();
-    window.localStorage.setItem('tasks', JSON.stringify(tasks));
+    window.localStorage.setItem('Buckets', JSON.stringify(recentBucket.tasks));
     task.title="";
    };
+
+   $scope.createBucket=function(bucket){
+      $scope.Buckets.push({
+      title:bucket.title,
+      tasks:[]
+    });
+    $scope.bucketModal.hide();
+    window.localStorage.setItem('Buckets', JSON.stringify(Buckets));
+    bucket.title="";
+   };
+
   $scope.newTask=function(){
     $scope.taskModal.show();
   };
@@ -30,7 +56,15 @@ angular.module('starter', ['ionic'])
   $scope.edit=function(task){
     tasks.splice(tasks.indexOf(task), 1);
     $scope.taskModal.show();
-    todoStorage.put(todos);
+    window.localStorage.setItem('tasks', JSON.stringify(tasks));
+  }
+  $scope.newBucket=function(){
+    $scope.bucketModal.show();
+  }
+
+  $scope.open=function(bucket){
+
+    window.localStorage.setItem('recent', JSON.stringify(bucket));
   }
 });
 
