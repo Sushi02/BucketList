@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Ionic App Base
 =====================
 
@@ -86,3 +87,9 @@ Warning: the nightly version is not stable.
 ## Issues
 Issues have been disabled on this repo, if you do find an issue or have a question consider posting it on the [Ionic Forum](http://forum.ionicframework.com/).  Or else if there is truly an error, follow our guidelines for [submitting an issue](http://ionicframework.com/contribute/#issues) to the main Ionic repository. On the other hand, pull requests are welcome here!
 
+=======
+BucketList
+==========
+
+Simple mobile app built using apache cordova
+>>>>>>> bc25b940dae58e856cdf39eb1f3655c4134898d0
