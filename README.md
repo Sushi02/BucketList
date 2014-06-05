@@ -1,3 +1,4 @@
+Simple BUcketList app to keep track of what you want to accomplish.
 <<<<<<< HEAD
 Ionic App Base
 =====================
